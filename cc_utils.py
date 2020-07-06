@@ -59,12 +59,12 @@ def FindRGBTransform(rgbFrom, rgbTo, bias = True, transf = True):
     return [B,T]
 
 
-def FindRGBTransformWLS(rgbFrom, rgbTo, bias = True, transf = True):
+def FindRGBTransformWLS(rgbFrom, rgbTo, bias = True, transf = False):
     #TODO
 
     w = np.ones(24, dtype=float)
     w[18:] = 4.0 # gray values
-    w[18] = 24.0 # white is most important
+    w[18] = 10.0 # white is most important
 
     nw = w / w.sum()  # normalized
     NW = np.diag(nw)
@@ -131,6 +131,8 @@ def GetTemplate(ind = 0):
     my_data = genfromtxt('template/template.csv', delimiter=',')
     if(ind == 10):
         my_data = genfromtxt('template/template10.csv', delimiter=',')
+    if (ind == 2):
+        my_data = genfromtxt('template/template_sun24.csv', delimiter=',')
     if (ind == 34):
         my_data = genfromtxt('template/template34.csv', delimiter=',')
     my_data = my_data[:,::-1]

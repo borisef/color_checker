@@ -47,6 +47,9 @@ def click_and_keep(event, x, y, flags, param):
 
 # construct the argument parser and parse the arguments
 im = "cc/00001565.tif"
+#im = "template/cc_sun.jpg"
+
+
 #im = "cc/00001640.tif"
 #im = "cc/00001479.tif"
 # load the image, clone it, and setup the mouse callback function
