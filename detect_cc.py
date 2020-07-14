@@ -1,6 +1,6 @@
 # import the necessary packages
 import time
-import cv2
+import cv2, os
 import numpy as np
 # initialize the list of reference points and boolean indicating
 # whether cropping is being performed or not
@@ -47,8 +47,11 @@ def click_and_keep(event, x, y, flags, param):
 
 # construct the argument parser and parse the arguments
 im = "cc/00001565.tif"
+im = "cc/cm_20200709_160029_XX_tif/00001177.tif"
 #im = "template/cc_sun.jpg"
 
+folder2process = "ccs"
+outFolder = "new_ccs"
 
 #im = "cc/00001640.tif"
 #im = "cc/00001479.tif"
@@ -152,8 +155,8 @@ print(RGB24)
 RGB24 = np.array(RGB24)
 RGB24 = RGB24[:,::-1]
 #find transform
-#T = FindRGBTransform(rgbFrom=RGB24, rgbTo= rgbTemplate)
-T= FindRGBTransformWLS(rgbFrom=RGB24, rgbTo= rgbTemplate)
+T = FindRGBTransform(rgbFrom=RGB24, rgbTo= rgbTemplate)
+#T= FindRGBTransformWLS(rgbFrom=RGB24, rgbTo= rgbTemplate)
 #tranform orig image
 newIm = ApplyRGBTransform(image, T)
 
@@ -167,6 +170,20 @@ cv2.imshow("OLD", resizeTo(image,1000)[0])
 cv2.imwrite("res.png",newIm)
 
 cv2.waitKey(0)
+
+
+if(folder2process is not None):
+	if(not os.path.exists(outFolder)):
+		os.mkdir(outFolder)
+	for f in os.listdir(folder2process):
+		im = cv2.imread(os.path.join(folder2process,f))
+		newIm = ApplyRGBTransform(im, T)
+		newIm = cv2.convertScaleAbs(newIm)
+		newName = os.path.join(outFolder,f)
+		cv2.imwrite(newName, newIm)
+
+
+
 
 print("OK")
 
