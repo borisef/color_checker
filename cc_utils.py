@@ -47,7 +47,7 @@ def FindRGBTransform(rgbFrom, rgbTo, bias = True, transf = False):
         mFrom = np.mean(rgbFrom,0)
         mTo = np.mean(rgbTo, 0)
         B = mTo - mFrom
-        B = B - np.mean(B)#TEMP
+        B = B - np.mean(B)#TEMP to keep WB on average
     if(transf):
         rgbFrom_centered = rgbFrom - np.mean(rgbFrom, 0)
         rgbTo_centered = rgbTo - np.mean(rgbTo, 0)

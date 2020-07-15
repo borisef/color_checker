@@ -40,7 +40,7 @@ def click_and_keep(event, x, y, flags, param):
 		refPt.append([x, y])
 		L = len(refPt)
 		print(L)
-		cv2.circle(roi,(x,y),10,rgbTemplate[L-1,:], -1)
+		cv2.circle(roi,(x,y),10,bgrTemplate[L-1,:], -1)
 		cv2.imshow("ROI", roi)
 
 
@@ -57,9 +57,9 @@ outFolder = "new_ccs"
 #im = "cc/00001479.tif"
 # load the image, clone it, and setup the mouse callback function
 
-image = cv2.imread(im)
-rgbTemplate = GetTemplate()
-rgbTemplate = rgbTemplate[0:NUM_COLORS,:]
+image = cv2.imread(im) #BGR
+bgrTemplate = GetTemplate() #BGR
+bgrTemplate = bgrTemplate[0:NUM_COLORS,:]
 
 
 lenPtr = 0
@@ -136,7 +136,7 @@ if len(refPt) == 4:
 # if len(refPt) == NUM_COLORS:
 # 	# generate NUM_COLORS points and show
 # 	for i in range(NUM_COLORS):
-# 		cv2.circle(roi, (refPt[i][0], refPt[i][1]), 10, rgbTemplate[i, :], -1)
+# 		cv2.circle(roi, (refPt[i][0], refPt[i][1]), 10, bgrTemplate[i, :], -1)
 #
 # 	print(refPt)
 # 	cv2.imshow("inROI", roi)
@@ -153,10 +153,10 @@ RGB24 = GetRGBs(clone_roi,refPt)
 print("RGBs")
 print(RGB24)
 RGB24 = np.array(RGB24)
-RGB24 = RGB24[:,::-1]
+BGR24 = RGB24[:,::-1] #BGR again
 #find transform
-T = FindRGBTransform(rgbFrom=RGB24, rgbTo= rgbTemplate)
-#T= FindRGBTransformWLS(rgbFrom=RGB24, rgbTo= rgbTemplate)
+T = FindRGBTransform(rgbFrom=BGR24, rgbTo= bgrTemplate)
+#T= FindRGBTransformWLS(rgbFrom=RGB24, rgbTo= bgrTemplate)
 #tranform orig image
 newIm = ApplyRGBTransform(image, T)
 
