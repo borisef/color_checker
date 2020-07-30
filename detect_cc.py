@@ -50,8 +50,26 @@ im = "cc/00001565.tif"
 im = "cc/cm_20200709_160029_XX_tif/00001177.tif"
 #im = "template/cc_sun.jpg"
 
-folder2process = "ccs"
-outFolder = "new_ccs"
+folders2process=[
+	"/home/borisef/projects/color_checker/Exam1_clean/ykhaki",
+	"/home/borisef/projects/color_checker/Exam1_clean/white",
+	"/home/borisef/projects/color_checker/Exam1_clean/red",
+	"/home/borisef/projects/color_checker/Exam1_clean/green",
+	"/home/borisef/projects/color_checker/Exam1_clean/gray",
+	"/home/borisef/projects/color_checker/Exam1_clean/blue",
+	"/home/borisef/projects/color_checker/Exam1_clean/black"
+]
+
+outFolders = [
+	"/home/borisef/projects/color_checker/Exam1_clean_cc/ykhaki",
+	"/home/borisef/projects/color_checker/Exam1_clean_cc/white",
+	"/home/borisef/projects/color_checker/Exam1_clean_cc/red",
+	"/home/borisef/projects/color_checker/Exam1_clean_cc/green",
+	"/home/borisef/projects/color_checker/Exam1_clean_cc/gray",
+	"/home/borisef/projects/color_checker/Exam1_clean_cc/blue",
+	"/home/borisef/projects/color_checker/Exam1_clean_cc/black"
+]
+
 
 #im = "cc/00001640.tif"
 #im = "cc/00001479.tif"
@@ -169,18 +187,19 @@ cv2.imshow("OLD", resizeTo(image,1000)[0])
 
 cv2.imwrite("res.png",newIm)
 
-cv2.waitKey(0)
+#cv2.waitKey(0)
 
 
-if(folder2process is not None):
-	if(not os.path.exists(outFolder)):
-		os.mkdir(outFolder)
-	for f in os.listdir(folder2process):
-		im = cv2.imread(os.path.join(folder2process,f))
-		newIm = ApplyRGBTransform(im, T)
-		newIm = cv2.convertScaleAbs(newIm)
-		newName = os.path.join(outFolder,f)
-		cv2.imwrite(newName, newIm)
+if(len(folders2process)):
+	for folder2process,outFolder  in zip(folders2process, outFolders):
+		if(not os.path.exists(outFolder)):
+			os.mkdir(outFolder)
+		for f in os.listdir(folder2process):
+			im = cv2.imread(os.path.join(folder2process,f))
+			newIm = ApplyRGBTransform(im, T)
+			newIm = cv2.convertScaleAbs(newIm)
+			newName = os.path.join(outFolder,f)
+			cv2.imwrite(newName, newIm)
 
 
 
